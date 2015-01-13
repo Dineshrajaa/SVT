@@ -13,21 +13,82 @@
         <title>SVT</title>
     </head>
     <body>
+
+
+        <!--Home Page-->
         <section data-role="page" id="home-page">
+            <header data-role="header">
+                <h1>SVT</h1>
+                <img src="img/sri.png" class="ui-btn-left" width="40px" height="40px" />
+            </header>
+            <article data-role="main">
+                <center>
+                    <h1>SVT Factory Manager</h1>
+                    <input type="button" id="wpbtn" value="Weaver Profile" />
+                    <input type="button" id="pwbtn" value="Pick Wheel" />
+                </center>
+            </article>
+            <footer data-role="footer" data-position="fixed" data-tap-toggle="false">
+                <h1>&copy All Rights Reserved</h1>
+            </footer>
+        </section>
+
+
+        <!--Weaver Profile Display Page-->
+        <section data-role="page" id="wp-page">
+            <header data-role="header">
+            <a href="#" data-role="button" data-icon="back" data-iconpos="notext" data-rel="back">Back</a>
+            <h1>Weaver Profiles</h1>
+            <a href="#wpadd-page" id="addwpbtn" data-role="button" data-icon="plus" data-iconpos="notext" data-transition="flip">Add</a>
+            </header>
+            <article data-role="main">                
+                <ul data-role="listview" id="wplist" data-filter="true" data-filter-placeholder="Weaver name" data-inset="true" data-split-icon="edit"></ul>
+            </article>
+            <footer data-role="footer" data-position="fixed" data-tap-toggle="false">
+                <h1>&copy All Rights Reserved</h1>
+            </footer>
+        </section>
+
+
+        <!--Weaver Profile add Page-->
+        <section data-role="page" id="wpadd-page" data-dialog="true">
+           <header data-role="header">
+                <a href="#" data-role="button" data-rel="back" data-icon="back" data-iconpos="notext">Back</a>
+                <h1>Add Weavers Profile</h1>
+           </header> 
+           <article data-role="main">
+            <form id="addingForm">
+               <label for="wname">Weaver Name</label>
+               <input type="text" id="wname" /> 
+               <label for="wmobile">Mobile</label>
+               <input type="text" id="wmobile" />              
+               <label for="wsal">Weaver Salary</label>
+               <input type="text" id="wsal" />
+               <input type="button" id="savebtn" value="Save" />
+            </form>
+           </article>
+        </section>
+
+
+        <!--Power Wheel Reading Page-->
+        <section data-role="page" id="pw-page">
             <header data-role="header" data-position="fixed">
+            <a href="#" data-role="button" data-icon="back" data-iconpos="notext" data-rel="back">Back</a>
             <h1>SVT</h1>
-            <img src="img/sri.png" class="ui-btn-left" width="40px" height="40px" />
+            <!--<img src="img/sri.png" class="ui-btn-left" width="40px" height="40px" />-->
             </header>
             <article data-role="main">
             <center>
             <h1>Pick Wheel Readings</h1>
             </center>
+            <form id="pwForm">
             <label for="pw1">P1</label>
             <input type="text" id="pw1" />
             <label for="pw2">P2</label>
             <input type="text" id="pw2" />
             <input type="button" id="calcbtn" value="Calculate">
             <label id="result"></label>
+            </form>
             </article>
             <footer data-role="footer" data-position="fixed" data-tap-toggle="false">
                 <h1>&copy All Rights Reserved</h1>
