@@ -23,7 +23,7 @@ $(document).ready(function(){
 	function listProfile(transaction,results){
 		for(var i=0;i<results.rows.length;i++){
 			var row=results.rows.item(i);
-			$("#wplist").append("<li id="+row.wId+"><a href='#'>"+row.wName+"</a></li>");
+			$("#wplist").append("<li id='"+row.wId+"' class='wl'><a href='#'>"+row.wName+"</a></li>");
 		}
 		$("#wplist").listview("refresh");
 	}
@@ -36,7 +36,57 @@ $(document).ready(function(){
 		dbName.transaction(function(tx){
 			tx.executeSql("insert into svtwtable(wName,wMobile,wSalary) values(?,?,?)",[pname,pmobile,psal]);
 			});
+		$("#wplist").html("");			
 		$(":mobile-pagecontainer").pagecontainer("change","#wp-page");
+		readProfile();
+	}
+
+	//Method to Print Selected Weaver Profile
+	function printProfile(transaction,results){
+		var row=results.rows.item(0);
+		$(":mobile-pagecontainer").pagecontainer("change","#wsal-page");		
+		$("#dname").text("Name: "+row.wName);
+		$("#dmbl").text("Mobile: "+row.wMobile);
+		$("#dsal").text("Wage: "+row.wSalary);		
+		$("#salcalbtn").tap(function(){
+			var workeDays=$("#wdays").val();
+			if (workeDays!==0) {
+				var netPayable=workeDays*row.wSalary;
+				$("#payable").text("Amount Payable: "+netPayable);
+			}
+		});
+	}
+
+	function updateProfile(transaction,results){
+		var row=results.rows.item(0);
+		$(":mobile-pagecontainer").pagecontainer("change","#wpedit-page");
+		$("#nname").val(row.wName);
+		$("#nsal").val(row.wSalary);
+		$("#nmbl").val(row.wMobile);
+		$("#updbtn").tap(function(){
+			var uname=$("#nname").val();
+			var usal=$("#nsal").val();
+			var umbl=$("#nmbl").val();
+			dbName.transaction(function(tx){
+				tx.executeSql("update svtwtable set wName=?,wMobile=?,wSalary=? where wId='"+row.wId+"'",[uname,umbl,usal]);
+			});
+			$(":mobile-pagecontainer").pagecontainer("change","#wp-page");
+			$("#wplist").html("");
+			readProfile();
+		});
+	}
+	//Method to Read Selected Weaver Profile for Editing
+	function editProfile(sid){
+		dbName.transaction(function(tx){			
+			tx.executeSql('SELECT * from svtwtable Where wId = "'+ sid+ '"', [], updateProfile);
+		});
+	}
+
+	//Method to Read Selected Weaver Profile for Displaying
+	function viewProfile(sid){
+		dbName.transaction(function(tx){			
+			tx.executeSql('SELECT * from svtwtable Where wId = "'+ sid+ '"', [], printProfile);
+		});
 	}
 
 	//Method to Calculate Pick Wheel Reading
@@ -53,15 +103,30 @@ $(document).ready(function(){
 
 	//Initialize DB on Starting
 	dbtInitialize();
-	
+	readProfile();
 	//Displays Weavers Page
 	$("#wpbtn").tap(function(){
 		$(":mobile-pagecontainer").pagecontainer("change","#wp-page");
-		readProfile();
+		
 	});
 
 	//Save Weaver Profile
 	$("#savebtn").tap(saveProfile);
+
+	//Displays Home Page
+	$(".home").tap(function(){
+		$(":mobile-pagecontainer").pagecontainer("change","#home-page");
+	});
+
+	//Displays the details of the selected Weaver	
+	$(document).on("click","#wplist li",function(){
+				viewProfile($(this).attr('id'));
+		});
+
+	//Displays the details of the selected Weaver	
+	$(document).on("taphold","#wplist li",function(){
+				editProfile($(this).attr('id'));
+		});
 
 	//Displays Pick Wheel Page
 	$("#pwbtn").tap(function(){

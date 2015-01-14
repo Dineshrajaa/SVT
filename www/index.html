@@ -42,7 +42,7 @@
             <a href="#wpadd-page" id="addwpbtn" data-role="button" data-icon="plus" data-iconpos="notext" data-transition="flip">Add</a>
             </header>
             <article data-role="main">                
-                <ul data-role="listview" id="wplist" data-filter="true" data-filter-placeholder="Weaver name" data-inset="true" data-split-icon="edit"></ul>
+                <ul data-role="listview" id="wplist" data-filter="true" data-filter-placeholder="Weaver name" data-inset="true"></ul>
             </article>
             <footer data-role="footer" data-position="fixed" data-tap-toggle="false">
                 <h1>&copy All Rights Reserved</h1>
@@ -54,7 +54,8 @@
         <section data-role="page" id="wpadd-page" data-dialog="true">
            <header data-role="header">
                 <a href="#" data-role="button" data-rel="back" data-icon="back" data-iconpos="notext">Back</a>
-                <h1>Add Weavers Profile</h1>
+                <h1>Add Weavers</h1>
+                <a href="#" data-role="button" data-icon="home" data-iconpos="notext" class="home">Home</a>
            </header> 
            <article data-role="main">
             <form id="addingForm">
@@ -67,6 +68,41 @@
                <input type="button" id="savebtn" value="Save" />
             </form>
            </article>
+        </section>
+
+        <!--Weaver Detail Page-->
+        <section data-role="page" id="wsal-page">
+            <header data-role="header">
+            <a href="#" data-icon="back" data-rel="back" data-role="button" data-iconpos="notext">Back</a>
+            <h1>Weaver Details</h1>
+            <a href="#" data-icon="home" data-role="button" class="home" data-iconpos="notext">Home</a>
+            </header>  
+            <article data-role="main">          
+            <label id="dname"></label><br/>            
+            <label id="dsal"></label><br/>
+            <label id="dmbl"></label>
+            <input type="text" id="wdays" placeholder="Worked Days" />
+            <label id="payable"></label><br/>
+            <input type="button" id="salcalbtn" value="Calculate" />
+            </article>
+        </section>
+
+        <!--Weaver Detail Edit Page-->
+        <section data-role="page" id="wpedit-page">
+            <header data-role="header">
+            <a href="#" data-icon="back" data-rel="back" data-role="button" data-iconpos="notext">Back</a>
+            <h1>Edit Details</h1>
+            <a href="#" data-icon="home" data-role="button" class="home" data-iconpos="notext">Home</a>
+            </header>
+            <article data-role="main">
+                <label for="nname">New Name:</label>
+                <input type="text" id="nname" />
+                <label for="nsal">New Salary:</label>
+                <input type="text" id="nsal" />
+                <label for="nmbl">New Mobile:</label>
+                <input type="text" id="nmbl" />
+                <input type="button" id="updbtn" value="Update" />
+            </article>
         </section>
 
 
