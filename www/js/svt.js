@@ -99,6 +99,13 @@ $(document).ready(function(){
 		}
 	}
 
+	//Method to refresh pw-page
+	function reloadPage(){
+		$("#pw1").val("");
+		$("#pw2").val("");
+		$("#result").text("");
+	}
+
 	
 
 	//Initialize DB on Starting
@@ -133,6 +140,8 @@ $(document).ready(function(){
 		$(":mobile-pagecontainer").pagecontainer("change","#pw-page");
 	});
 
+	//Reloads the Pick Wheel Page
+	$("#refbtn").tap(reloadPage);
 	//Calls calculate method
 	$("#calcbtn").tap(calculate);
 //Loaded all DOM elements
