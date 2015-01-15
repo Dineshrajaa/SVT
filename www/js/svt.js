@@ -4,7 +4,7 @@ $(document).ready(function(){
 	function dbtInitialize(){
 		if (window.openDatabase) {
 			dbName.transaction(function(tx){
-				tx.executeSql("create table if not exists svtwtable(wId integer primary key asc,wName text,wMobile text,wSalary real)");
+				tx.executeSql("create table if not exists svtwtable(wId integer primary key,wName text,wMobile text,wSalary real)");
 				});
 		}
 		else{
