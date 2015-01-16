@@ -24,7 +24,8 @@
             <article data-role="main">
                 <center>
                     <h1>SVT Factory Manager</h1>
-                    <input type="button" id="wpbtn" value="Weaver Profile" />
+                    <input type="button" id="wpbtn" value="View Weaver Profile" />
+                    <input type="button" id="dpbtn" value="Delete Weaver Profile" />
                     <input type="button" id="pwbtn" value="Pick Wheel" />
                 </center>
             </article>
@@ -42,7 +43,7 @@
             <a href="#wpadd-page" id="addwpbtn" data-role="button" data-icon="plus" data-iconpos="notext" data-transition="flip">Add</a>
             </header>
             <article data-role="main">                
-                <ul data-role="listview" id="wplist" data-filter="true" data-filter-placeholder="Weaver name" data-inset="true"></ul>
+                <ul data-role="listview" id="wplist" data-filter="true" data-filter-placeholder="Weaver name" data-inset="true" data-split-icon="minus"></ul>
             </article>
             <footer data-role="footer" data-position="fixed" data-tap-toggle="false">
                 <h1>&copy All Rights Reserved</h1>
@@ -105,6 +106,18 @@
             </article>
         </section>
 
+        <!--Weaver Detail Delete Page-->
+        <section data-role="page" id="wpdelete-page">
+            <header data-role="header">
+                <a href="#" data-icon="back" data-rel="back" data-role="button" data-iconpos="notext">Back</a>
+            <h1>Delete Profile</h1>
+            <a href="#" data-icon="home" data-role="button" class="home" data-iconpos="notext">Home</a>
+            </header>
+            <article data-role="main">
+                <h3>Swipe to Delete Profiles</h3>
+                <ul data-role="listview" id="wpdlist" data-filter="true" data-filter-placeholder="Weaver name" data-inset="true"></ul>
+            </article>
+        </section>
 
         <!--Power Wheel Reading Page-->
         <section data-role="page" id="pw-page">

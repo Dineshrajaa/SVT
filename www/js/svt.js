@@ -67,7 +67,7 @@ $(document).ready(function(){
 		$("#nmbl").val(row.wMobile);
 		
 	}
-
+	//Updates the Table row
 	$("#updbtn").tap(function(){
 			var uname=$("#nname").val();
 			var usal=$("#nsal").val();
@@ -91,6 +91,21 @@ $(document).ready(function(){
 		dbName.transaction(function(tx){			
 			tx.executeSql('SELECT * from svtwtable Where wId = "'+ sid+ '"', [], printProfile);
 		});
+	}
+
+	//Method to List for delete
+	function listforDelete(transaction,results){
+		for(var i=0;i<results.rows.length;i++){
+			var row=results.rows.item(i);
+			$("#wpdlist").append("<li id='"+row.wId+"' class='wl'><a href='#'>"+row.wName+"</a></li>");
+		}
+		$("#wpdlist").listview("refresh");
+	}
+	//Method to Read for delete
+	function readforDelete(){		
+		dbName.transaction(function(tx){
+			tx.executeSql("select * from svtwtable",[],listforDelete);
+		});		
 	}
 
 	//Method to Calculate Pick Wheel Reading
@@ -118,7 +133,8 @@ $(document).ready(function(){
 	//Displays Weavers Page
 	$("#wpbtn").tap(function(){
 		$(":mobile-pagecontainer").pagecontainer("change","#wp-page");
-		
+		$("#wplist").html("");
+		readProfile();		
 	});
 
 	//Save Weaver Profile
@@ -139,11 +155,30 @@ $(document).ready(function(){
 				editProfile($(this).attr('id'));
 		});
 
+	//Used to deleteinfo on Swipe
+	$(document).on("tap","#wpdlist li",function(){				
+				var lid=$(this).closest('li').attr('id');
+				dbName.transaction(function(tx){
+					tx.executeSql("delete from svtwtable where wId='"+lid+"'");					
+				});
+				$("#wpdlist").html("");
+				readforDelete();
+		});
 	//Displays Pick Wheel Page
 	$("#pwbtn").tap(function(){
-		$(":mobile-pagecontainer").pagecontainer("change","#pw-page");
+		$(":mobile-pagecontainer").pagecontainer("change","#pw-page");		
 	});
 
+	//Displays Delete Page
+	$("#dpbtn").tap(function(){
+		$(":mobile-pagecontainer").pagecontainer("change","#wpdelete-page");
+		$("#wpdlist").html(" ");
+		readforDelete();		
+	});
+	//Called when DeletePage Displayed
+	//$(":mobile-pagecontainer").on("pagebeforeshow","#wpdelete-page",readforDelete);
+	//Called when DetailsPage Displayed
+	//$(":mobile-pagecontainer").on("pagebeforeshow","#wp-page",readProfile);
 	//Reloads the Pick Wheel Page
 	$("#refbtn").tap(reloadPage);
 	//Calls calculate method
