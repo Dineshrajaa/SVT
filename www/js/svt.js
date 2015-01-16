@@ -1,5 +1,6 @@
 $(document).ready(function(){
 	var dbName=window.openDatabase("SVTDB",1.0,"SVTDB",5242880);
+	var gId;
 	//Method to Initialize DB
 	function dbtInitialize(){
 		if (window.openDatabase) {
@@ -60,21 +61,24 @@ $(document).ready(function(){
 	function updateProfile(transaction,results){
 		var row=results.rows.item(0);
 		$(":mobile-pagecontainer").pagecontainer("change","#wpedit-page");
+		gId=row.wId;
 		$("#nname").val(row.wName);
 		$("#nsal").val(row.wSalary);
 		$("#nmbl").val(row.wMobile);
-		$("#updbtn").tap(function(){
+		
+	}
+
+	$("#updbtn").tap(function(){
 			var uname=$("#nname").val();
 			var usal=$("#nsal").val();
 			var umbl=$("#nmbl").val();
 			dbName.transaction(function(tx){
-				tx.executeSql("update svtwtable set wName=?,wMobile=?,wSalary=? where wId='"+row.wId+"'",[uname,umbl,usal]);
+				tx.executeSql("update svtwtable set wName=?,wMobile=?,wSalary=? where wId='"+gId+"'",[uname,umbl,usal]);
 			});
 			$(":mobile-pagecontainer").pagecontainer("change","#wp-page");
 			$("#wplist").html("");
 			readProfile();
 		});
-	}
 	//Method to Read Selected Weaver Profile for Editing
 	function editProfile(sid){
 		dbName.transaction(function(tx){			
