@@ -1,6 +1,7 @@
 $(document).ready(function(){
 	var dbName=window.openDatabase("SVTDB",1.0,"SVTDB",5242880);
 	var gId;
+	var lid;
 	//Method to Initialize DB
 	function dbtInitialize(){
 		if (window.openDatabase) {
@@ -37,6 +38,7 @@ $(document).ready(function(){
 		dbName.transaction(function(tx){
 			tx.executeSql("insert into svtwtable(wName,wMobile,wSalary) values(?,?,?)",[pname,pmobile,psal]);
 			});
+		toastAlert("Saved Profile");
 		$("#wplist").html("");			
 		$(":mobile-pagecontainer").pagecontainer("change","#wp-page");
 		readProfile();
@@ -75,6 +77,7 @@ $(document).ready(function(){
 			dbName.transaction(function(tx){
 				tx.executeSql("update svtwtable set wName=?,wMobile=?,wSalary=? where wId='"+gId+"'",[uname,umbl,usal]);
 			});
+			toastAlert("Updated Successfully");
 			$(":mobile-pagecontainer").pagecontainer("change","#wp-page");
 			$("#wplist").html("");
 			readProfile();
@@ -118,12 +121,39 @@ $(document).ready(function(){
 		}
 	}
 
+	//Method to display Toast Alerts
+
+	function toastAlert(msg){
+		window.plugins.toast.showLongBottom(msg);
+	}
+
 	//Method to refresh pw-page
 	function reloadPage(){
 		$("#pw1").val("");
 		$("#pw2").val("");
 		$("#result").text("");
 	}
+
+	//On Promptbox Success
+	function onConfirm(buttonIndex) {
+    if (buttonIndex==1) {
+    	deleteProfile(lid);
+    }
+    else {
+    	toastAlert("No Profiles Deleted");
+    	$("#wpdlist").html(" ");
+		readforDelete();
+    }
+}
+
+function deleteProfile(lid){
+	dbName.transaction(function(tx){
+					tx.executeSql("delete from svtwtable where wId='"+lid+"'");					
+				});
+				toastAlert("Deleted Profile");
+				$("#wpdlist").html("");
+				readforDelete();
+}
 
 	
 
@@ -157,12 +187,19 @@ $(document).ready(function(){
 
 	//Used to deleteinfo on Swipe
 	$(document).on("tap","#wpdlist li",function(){				
-				var lid=$(this).closest('li').attr('id');
-				dbName.transaction(function(tx){
+				lid=$(this).closest('li').attr('id');
+				//Display an Alert before Delete
+				navigator.notification.confirm(
+					'Do You Want to Delete?',
+					onConfirm,
+					'Delete Profile Confirmation'
+					);
+				/*dbName.transaction(function(tx){
 					tx.executeSql("delete from svtwtable where wId='"+lid+"'");					
 				});
+				toastAlert("Deleted Profile");
 				$("#wpdlist").html("");
-				readforDelete();
+				readforDelete(); */
 		});
 	//Displays Pick Wheel Page
 	$("#pwbtn").tap(function(){
@@ -175,10 +212,7 @@ $(document).ready(function(){
 		$("#wpdlist").html(" ");
 		readforDelete();		
 	});
-	//Called when DeletePage Displayed
-	//$(":mobile-pagecontainer").on("pagebeforeshow","#wpdelete-page",readforDelete);
-	//Called when DetailsPage Displayed
-	//$(":mobile-pagecontainer").on("pagebeforeshow","#wp-page",readProfile);
+	
 	//Reloads the Pick Wheel Page
 	$("#refbtn").tap(reloadPage);
 	//Calls calculate method

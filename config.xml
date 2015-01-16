@@ -8,5 +8,9 @@
         Dinesh Raja
     </author>
     <content src="index.html" />
+    <!--Core Plugins-->
+    <gap:plugin name="org.apache.cordova.dialogs" version="0.2.10" />
+    <!--3rd Party Plugins-->
+    <gap:plugin name="nl.x-services.plugins.toast" version="2.0.2" />
     <access origin="*" />
 </widget>
